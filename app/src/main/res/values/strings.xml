@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Practica4</string>
+    <string name="ordenar"><![CDATA[a>z]]></string>
+    <string name="Acercade">Acerca de</string>
+    <string name="Anyadir">Añadir</string>
 </resources>

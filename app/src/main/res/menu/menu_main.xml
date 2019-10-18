@@ -7,11 +7,16 @@
         android:id="@+id/btAnyadir"
         android:icon="@android:drawable/ic_input_add"
         android:orderInCategory="100"
-        android:title="Item"
+        android:title="@string/Anyadir"
         android:visible="true"
         app:showAsAction="always" />
     <item
-        android:id="@+id/btBorrar"
-        android:title="Borrar" />
-    <item android:title="Item" />
+        android:id="@+id/btOrdenar"
+        android:title="@string/ordenar"
+        android:visible="true" />
+    <item
+        android:id="@+id/btAcercade"
+        android:title="@string/Acercade"
+        android:visible="true"
+        app:showAsAction="never|withText" />
 </menu>
