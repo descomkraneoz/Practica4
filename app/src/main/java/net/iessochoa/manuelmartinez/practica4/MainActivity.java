@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
     Button btOrdenar;
     Button btAnyadir;
 
+    /**
+     * Metodo para crear el mensaje al pulsar sobre el boton de Acerca de del Menu de la app
+     */
+
     public void MensajeAcercade(){
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
         dialogo.setTitle("Acerca de ");// titulo y mensaje
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                         onDestroy();
                     } });
 
+        //Esta parte del código la comento porque no la voy a utilizar en este caso, sirve para un boton de cancelar
         /*dialogo.setNegativeButton(android.R.string.no ,
                 new DialogInterface.OnClickListener() {
 
@@ -45,10 +50,9 @@ public class MainActivity extends AppCompatActivity {
                         // Qué hacemos en caso cancel ......
 
                     } });*/
+
         dialogo.show();
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +62,30 @@ public class MainActivity extends AppCompatActivity {
         btAnyadir=findViewById(R.id.btAnyadir);
         btOrdenar=findViewById(R.id.btOrdenar);
 
+        //Agregar fragmento a la actividad
+
+        ListaPoblaciones listaPoblaciones = (ListaPoblaciones) getSupportFragmentManager().findFragmentById(R.id.lvListaPoblaciones);
+        if (listaPoblaciones == null) {
+            listaPoblaciones = ListaPoblaciones.newInstance();
+            getSupportFragmentManager().beginTransaction().add(R.id.lvListaPoblaciones, listaPoblaciones).commit();
+        }
+
 
     }
+
+    /**
+     * @param menu, para poder mostrar el menu hace falta inflarlo antes.
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+    /**
+     * Llamada a los botones o elementos del menu de la app
+     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
