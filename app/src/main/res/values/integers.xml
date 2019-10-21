@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="fiveStars">5</integer>
+    <integer name="maxLines">2</integer>
+    />
+
+</resources>

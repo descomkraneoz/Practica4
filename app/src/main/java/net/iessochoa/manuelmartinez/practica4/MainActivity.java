@@ -1,16 +1,13 @@
 package net.iessochoa.manuelmartinez.practica4;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
+
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         ListaPoblaciones listaPoblaciones = (ListaPoblaciones) getSupportFragmentManager().findFragmentById(R.id.lvListaPoblaciones);
         if (listaPoblaciones == null) {
-            listaPoblaciones = ListaPoblaciones.newInstance();
+            //listaPoblaciones = ListaPoblaciones.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.lvListaPoblaciones, listaPoblaciones).commit();
         }
 
