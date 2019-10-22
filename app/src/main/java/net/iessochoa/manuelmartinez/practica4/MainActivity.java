@@ -16,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
     Button btOrdenar;
     Button btAnyadir;
 
+    private PoblacionesAdapter adaptadorLocalidadesValoradas;
+
+
     /**
      * Metodo para crear el mensaje al pulsar sobre el boton de Acerca de del Menu de la app
      */
@@ -66,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
             //listaPoblaciones = ListaPoblaciones.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.lvListaPoblaciones, listaPoblaciones).commit();
         }
+
+        //Crear y asignar un ArrayList al adaptador y asignarlo al listView
+
+        adaptadorLocalidadesValoradas = new PoblacionesAdapter(this, R.layout.fragment_lista_poblaciones, listaPoblaciones);
+        lsv_LocalidadesValoradas.setAdapter(adaptadorLocalidadesValoradas);
 
 
     }

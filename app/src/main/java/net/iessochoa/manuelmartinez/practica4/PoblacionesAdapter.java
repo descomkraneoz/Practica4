@@ -39,7 +39,7 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
         TextView tvComentarios = (TextView) convertView.findViewById(R.id.tvComentarios);
         RatingBar rbEstrellas = (RatingBar) convertView.findViewById(R.id.ratingBar);
 
-        // Lead actual.
+        // Poblacion actual.
         Poblacion poblacion = getItem(position);
 
         // Setup.
@@ -50,6 +50,28 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
         rbEstrellas.setRating(poblacion.getValoracion());
 
         return convertView;
+    }
+
+    public void editPoblacion(Poblacion poblacion) {
+        poblacion.setLocalidad("");
+        poblacion.setProvincia("");
+        poblacion.setComentarios("");
+        poblacion.setValoracion(0.0f);
+    }
+
+    public void addPoblacion(Poblacion poblacion) {
+        if (poblacion != null) {
+            if (poblacionesValoradas.contains(poblacion)) {
+                System.out.println("Poblacion ya en la lista, editar: ");
+                editPoblacion(poblacion);
+            }
+        } else {
+            poblacionesValoradas.add(poblacion);
+        }
+    }
+
+    public void delPoblacion(int index) {
+        poblacionesValoradas.remove(index);
     }
 
 
