@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -58,6 +59,24 @@ public class MainActivity extends AppCompatActivity {
                     } });*/
 
         dialogo.show();
+    }
+
+    /**
+     * Metodo boton añadir
+     */
+
+    public void agregaPoblacion() {
+        btAnyadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Poblacion p = new Poblacion();
+                p.setLocalidad("");
+                p.setProvincia("");
+                p.setComentarios("");
+                p.setValoracion(0.0f);
+                adaptadorLocalidadesValoradas.addPoblacion(p);
+            }
+        });
     }
 
     /**
@@ -117,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 MensajeAcercade();
                 break;
             case R.id.btAnyadir:
-
+                agregaPoblacion();
                 break;
             case R.id.btOrdenar:
 

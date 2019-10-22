@@ -9,5 +9,7 @@
 
     <string name="provincia">Provincia</string>
     <string name="localidad">Localidad</string>
+    <string name="flecha" />
+    <string name="comentarios">Comentarios</string>
 
 </resources>

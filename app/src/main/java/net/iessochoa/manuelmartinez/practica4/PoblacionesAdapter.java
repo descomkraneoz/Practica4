@@ -12,11 +12,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
+    //El array de objetos que voy a mostrar
     private ArrayList<Poblacion> poblacionesValoradas;
 
-    public PoblacionesAdapter(Context context, int resource, List<Poblacion> objects) {
+    public PoblacionesAdapter(Context context, int resource, ArrayList<Poblacion> objects) {
         super(context, 0, objects);
+        poblacionesValoradas = objects;
     }
+
+    /**
+     * devuelve la lista actual de elementos
+     *
+     * @return
+     */
+    public ArrayList<Poblacion> getPoblacionesValoradas() {
+        return poblacionesValoradas;
+    }
+
+    public void setPoblacionesValoradas(ArrayList<Poblacion> lista) {
+        this.poblacionesValoradas = lista;
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -66,6 +82,7 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
                 editPoblacion(poblacion);
             } else {
                 poblacionesValoradas.add(poblacion);
+                this.notifyDataSetChanged();
             }
         } else {
             System.out.println("Error objeto vacio");
@@ -74,6 +91,7 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
 
     public void delPoblacion(int index) {
         poblacionesValoradas.remove(index);
+        this.notifyDataSetChanged();
     }
 
 
