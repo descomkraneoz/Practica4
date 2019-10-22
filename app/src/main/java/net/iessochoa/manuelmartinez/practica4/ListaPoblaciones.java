@@ -29,11 +29,6 @@ public class ListaPoblaciones extends Fragment {
     private static final Float ARG_VALORACION = 0.0f;
     private static final String ARG_COMENTARIOS = "Comentarios";
 
-    /*//Implementar ArrayAdapter en la lista
-
-    ListView mListaPoblaciones;
-    ArrayAdapter<String> mAdaptadorLista;*/
-
     // TODO: Rename and change types of parameters
     private String mProvincia;
     private String mLocalidad;
@@ -81,7 +76,8 @@ public class ListaPoblaciones extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista_poblaciones, container, false);
+        View root = inflater.inflate(R.layout.fragment_lista_poblaciones, container, false);
+        return root;
 
     }
 
