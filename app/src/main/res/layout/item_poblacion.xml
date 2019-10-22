@@ -12,7 +12,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/almendra_bold"
-        android:text="@string/localidaa"
+        android:text="@string/localidad"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,14 +50,14 @@
     <RatingBar
         android:id="@+id/ratingBar"
         style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="79dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="32dp"
         android:numStars="@integer/fiveStars"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toEndOf="@+id/tvProvincia"
         app:layout_constraintTop_toBottomOf="@+id/tvComentarios" />
 

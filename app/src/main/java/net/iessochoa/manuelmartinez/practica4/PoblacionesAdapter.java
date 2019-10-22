@@ -14,7 +14,7 @@ import java.util.List;
 public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
     private ArrayList<Poblacion> poblacionesValoradas;
 
-    public PoblacionesAdapter(Context context, List<Poblacion> objects) {
+    public PoblacionesAdapter(Context context, int resource, List<Poblacion> objects) {
         super(context, 0, objects);
     }
 
@@ -27,7 +27,7 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
         // ¿Existe el view actual?
         if (null == convertView) {
             convertView = inflater.inflate(
-                    R.layout.fragment_lista_poblaciones,
+                    R.layout.item_poblacion,
                     parent,
                     false);
         }
@@ -64,9 +64,11 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
             if (poblacionesValoradas.contains(poblacion)) {
                 System.out.println("Poblacion ya en la lista, editar: ");
                 editPoblacion(poblacion);
+            } else {
+                poblacionesValoradas.add(poblacion);
             }
         } else {
-            poblacionesValoradas.add(poblacion);
+            System.out.println("Error objeto vacio");
         }
     }
 

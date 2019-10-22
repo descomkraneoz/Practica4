@@ -9,14 +9,20 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    ListView lvListaPoblaciones;
+    ArrayList<Poblacion> poblaciones;
+    private PoblacionesAdapter adaptadorLocalidadesValoradas;
 
     Button btAcercade;
     Button btOrdenar;
     Button btAnyadir;
 
-    private PoblacionesAdapter adaptadorLocalidadesValoradas;
+
 
 
     /**
@@ -54,26 +60,38 @@ public class MainActivity extends AppCompatActivity {
         dialogo.show();
     }
 
+    /**
+     * Metodo para crear unos datos de muestra en el array
+     */
+
+    public void creaDatos() {
+        poblaciones = new ArrayList<Poblacion>();
+        poblaciones.add(new Poblacion("Alicante", "Elche", 4.0f, "Lorem ipsum dolor sit amet," +
+                " consectetur adipiscing elit. Integer sed finibus ipsum. " +
+                "Curabitur non fermentum urna. Aliquam risus nunc, dapibus vitae commodo at, sollicitudin eget diam. " +
+                "Nunc consequat magna at fermentum maximus. Duis venenatis rutrum neque, mattis pulvinar purus vehicula "));
+        poblaciones.add(new Poblacion("Alicante", "Alcoy", 2.0f, "Lorem ipsum dolor sit amet, " +
+                "consectetur adipiscing elit. Integer sed finibus ipsum. " +
+                "Curabitur non fermentum urna. Aliquam risus nunc, dapibus vitae commodo at, sollicitudin eget diam. " +
+                "Nunc consequat magna at fermentum maximus. Duis venenatis rutrum neque, mattis pulvinar purus vehicula ullamcorper."));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lvListaPoblaciones = findViewById(R.id.lvListaPoblaciones);
         btAcercade=findViewById(R.id.btAcercade);
         btAnyadir=findViewById(R.id.btAnyadir);
         btOrdenar=findViewById(R.id.btOrdenar);
 
-        //Agregar fragmento a la actividad
-
-        ListaPoblaciones listaPoblaciones = (ListaPoblaciones) getSupportFragmentManager().findFragmentById(R.id.lvListaPoblaciones);
-        if (listaPoblaciones == null) {
-            //listaPoblaciones = ListaPoblaciones.newInstance();
-            getSupportFragmentManager().beginTransaction().add(R.id.lvListaPoblaciones, listaPoblaciones).commit();
-        }
-
         //Crear y asignar un ArrayList al adaptador y asignarlo al listView
+        creaDatos();
 
-        adaptadorLocalidadesValoradas = new PoblacionesAdapter(this, R.layout.fragment_lista_poblaciones, listaPoblaciones);
-        lsv_LocalidadesValoradas.setAdapter(adaptadorLocalidadesValoradas);
+        adaptadorLocalidadesValoradas = new PoblacionesAdapter(this, R.layout.item_poblacion, poblaciones);
+        lvListaPoblaciones.setAdapter(adaptadorLocalidadesValoradas);
+
+        adaptadorLocalidadesValoradas.notifyDataSetChanged();
 
 
     }
