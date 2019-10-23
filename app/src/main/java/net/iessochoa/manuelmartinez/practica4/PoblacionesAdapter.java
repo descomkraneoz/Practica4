@@ -9,7 +9,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
     //El array de objetos que voy a mostrar

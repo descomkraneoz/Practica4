@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -45,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Qué hacemos en caso ok ....
-                        onDestroy();
+                        //onDestroy(); no funciona como es debido en este caso
+                        onRestart();
                     } });
 
         //Esta parte del código la comento porque no la voy a utilizar en este caso, sirve para un boton de cancelar
@@ -66,17 +69,10 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void agregaPoblacion() {
-        btAnyadir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Poblacion p = new Poblacion();
-                p.setLocalidad("");
-                p.setProvincia("");
-                p.setComentarios("");
-                p.setValoracion(0.0f);
-                adaptadorLocalidadesValoradas.addPoblacion(p);
-            }
-        });
+        Intent intent = new Intent(MainActivity.this, PoblacionActivity.class);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+
     }
 
     /**
@@ -139,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 agregaPoblacion();
                 break;
             case R.id.btOrdenar:
-
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
