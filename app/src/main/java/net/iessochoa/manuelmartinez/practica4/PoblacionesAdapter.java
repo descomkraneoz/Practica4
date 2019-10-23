@@ -1,12 +1,16 @@
 package net.iessochoa.manuelmartinez.practica4;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -85,13 +89,42 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
                 this.notifyDataSetChanged();
             }
         } else {
-            System.out.println("Error objeto vacio");
+
         }
     }
 
     public void delPoblacion(int index) {
         poblacionesValoradas.remove(index);
         this.notifyDataSetChanged();
+    }
+
+    public void MensajeGuardar() {
+        final AlertDialog.Builder dialogo = new AlertDialog.Builder(this.getContext());
+        dialogo.setTitle("Modificar ");// titulo y mensaje
+        dialogo.setMessage("Se dispone a modificar una población");
+
+
+        // agregamos botón Ok y su evento
+        dialogo.setPositiveButton(android.R.string.yes,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Qué hacemos en caso ok ....
+                        addPoblacion(new Poblacion());
+                    }
+                });
+
+        //Esta parte del código la comento porque no la voy a utilizar en este caso, sirve para un boton de cancelar
+        /*dialogo.setNegativeButton(android.R.string.no ,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Qué hacemos en caso cancel ......
+
+                    } });*/
+        dialogo.show();
     }
 
 
