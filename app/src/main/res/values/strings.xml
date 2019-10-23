@@ -3,14 +3,13 @@
     <string name="ordenar"><![CDATA[a>z]]></string>
     <string name="Acercade">Acerca de</string>
     <string name="Anyadir">Añadir</string>
-    <string name="tmMensajeERROR">NO HACE NADA :)</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tmMensajeERROR">NO HACE NADA :)</string>
+    <string name="tmNOSeleccion">No has seleccionado nada</string>
+    <string name="tmMensajeSELECCIONADO">Has seleccionado: &#160;</string>
 
     <string name="provincia">Provincia</string>
     <string name="localidad">Localidad</string>
-    <string name="flecha" />
     <string name="comentarios">Comentarios</string>
 
 </resources>

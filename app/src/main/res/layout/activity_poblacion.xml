@@ -13,6 +13,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="24dp"
+        android:entries="@array/provincias"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvProvincia"
@@ -80,18 +81,26 @@
 
     <EditText
         android:id="@+id/etComentarios"
+        style="@style/Widget.AppCompat.EditText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:autoText="false"
         android:ems="10"
         android:fontFamily="@font/almendra"
-        android:inputType="textPersonName"
+        android:gravity="clip_horizontal"
+        android:inputType="textMultiLine|text"
+        android:overScrollMode="ifContentScrolls"
+        android:selectAllOnFocus="false"
+        android:singleLine="false"
+        android:textAlignment="gravity"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvComentarios" />
+        app:layout_constraintTop_toBottomOf="@+id/tvComentarios"
+        tools:text="@tools:sample/lorem/random" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     public void agregaPoblacion() {
         Intent intent = new Intent(MainActivity.this, PoblacionActivity.class);
         startActivity(intent);
-        Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
 
     }
 
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btAcercade:
                 MensajeAcercade();
                 break;
-            case R.id.btAnyadir:
+            case (R.id.btAnyadir):
                 agregaPoblacion();
                 break;
             case R.id.btOrdenar:
