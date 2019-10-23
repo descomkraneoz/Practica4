@@ -11,5 +11,6 @@
     <string name="provincia">Provincia</string>
     <string name="localidad">Localidad</string>
     <string name="comentarios">Comentarios</string>
+    <string name="tmMensajeRatinBar">Usted ha votado con: &#160;</string>
 
 </resources>

@@ -36,6 +36,17 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         etComentarios = findViewById(R.id.etComentarios);
 
         /**
+         * Metodo para informar del voto en el RatingBar
+         */
+
+        rbEstrellas.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                Toast.makeText(PoblacionActivity.this, getResources().getText(R.string.tmMensajeRatinBar) + "" + v, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        /**
          * Con este metodo consigo poblar el primer spinner con los datos del xml, pero no me hace falta si uso
          * el entries del propio spinner en el activity_poblacion.xml
          */
@@ -50,7 +61,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
     }
 
     /**
-     * Sobreescribimos el método onItemSelected para poder asociar los spiner entre si
+     * Sobreescribimos el método onItemSelected para poder asociar los spinner entre si
      */
 
     @Override
@@ -77,4 +88,5 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
         Toast.makeText(getApplicationContext(), getString(R.string.tmNOSeleccion), Toast.LENGTH_LONG).show();
     }
+
 }
