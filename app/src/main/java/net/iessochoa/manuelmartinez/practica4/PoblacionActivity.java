@@ -1,8 +1,5 @@
 package net.iessochoa.manuelmartinez.practica4;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.AndroidViewModel;
-
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -25,8 +24,9 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
 
 
     //datos para la  lista
-    ArrayList<Poblacion> al_datos;
+    ArrayList<Poblacion> arrayListPoblacionActivity;
     PoblacionesAdapter adaptadorLista;
+    ListView lvPoblacionActivity;
 
     //Elementos de la actividad
     TextView tvProvincia;
@@ -50,19 +50,21 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         tvComentarios = findViewById(R.id.tvComentarios);
         etComentarios = findViewById(R.id.etComentarios);
         fabGuardar = findViewById(R.id.fabGuardar);
+        //Voy a asignar al listView la id del listView del MainActivity
+        lvPoblacionActivity = findViewById(R.id.lvListaPoblaciones);
 
         if (savedInstanceState == null) {
-            //crear datos a mostrar
+            //crear datos a mostrar ------> hacerlo porque sino da un fallo de nulos
             //podemos poner un metodo que lo haga, por ejemplo: crearDatos();
         } else {
             //recuperamos los datos
 
-            /*   //////// por aqui /////
-            al_datos=savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES);
-            //https://github.com/jlopezdemerlo/EjemplosPractica4/blob/master/app/src/main/java/net/iessochoa/joseantoniolopez/ejemplospractica4/ListaConReconstruccionActivity.java
-
-             */
+            arrayListPoblacionActivity = savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES);
         }
+
+        adaptadorLista = new PoblacionesAdapter(this, R.layout.item_poblacion, arrayListPoblacionActivity);
+        lvPoblacionActivity.setAdapter(adaptadorLista);
+
 
         /**
          * Metodo para informar del voto del RatingBar
@@ -79,10 +81,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onClick(View v) {
                 Poblacion p = new Poblacion();
-                p.setProvincia(spProvincia.toString());
-                p.setLocalidad(spLocalidad.toString());
-                p.setValoracion(rbEstrellas.getRating());
-                p.setComentarios(etComentarios.toString());
+                adaptadorLista.addPoblacion(p);
 
             }
         });
