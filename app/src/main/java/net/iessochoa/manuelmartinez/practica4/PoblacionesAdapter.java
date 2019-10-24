@@ -1,16 +1,12 @@
 package net.iessochoa.manuelmartinez.practica4;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,6 +15,7 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
     //El array de objetos que voy a mostrar
     private ArrayList<Poblacion> poblacionesValoradas;
 
+    //Constructor de clase
     public PoblacionesAdapter(Context context, int resource, ArrayList<Poblacion> objects) {
         super(context, 0, objects);
         poblacionesValoradas = objects;
@@ -26,17 +23,26 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
 
     /**
      * devuelve la lista actual de elementos
-     *
-     * @return
      */
     public ArrayList<Poblacion> getPoblacionesValoradas() {
         return poblacionesValoradas;
     }
 
-    public void setPoblacionesValoradas(ArrayList<Poblacion> lista) {
-        this.poblacionesValoradas = lista;
+    /**
+     * Nos permite actualizar la lista e indicar al adaptador que reconstrulla la lista
+     */
+    public void setPoblacionesValoradas(ArrayList<Poblacion> poblacionesValoradas) {
+        this.poblacionesValoradas = poblacionesValoradas;
+        notifyDataSetChanged();//actualizamos el ListView
     }
 
+    /**
+     *  Nos permite asignar los datos de un elemento de la lista en el listview
+     * @param position posicion del elemento a mostrar
+     * @param convertView layaout de un elemento que se deja de mostrar en pantalla, es reciclable para ahorrar recursos
+     * @param parent
+     * @return
+     */
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -82,49 +88,21 @@ public class PoblacionesAdapter extends ArrayAdapter<Poblacion> {
     public void addPoblacion(Poblacion poblacion) {
         if (poblacion != null) {
             if (poblacionesValoradas.contains(poblacion)) {
-                System.out.println("Poblacion ya en la lista, editar: ");
+                //System.out.println("Poblacion ya en la lista, editar: ");
                 editPoblacion(poblacion);
             } else {
                 poblacionesValoradas.add(poblacion);
                 this.notifyDataSetChanged();
             }
         } else {
-
+            //System.out.println("Error objeto vacio");
+            return;
         }
     }
 
     public void delPoblacion(int index) {
         poblacionesValoradas.remove(index);
         this.notifyDataSetChanged();
-    }
-
-    public void MensajeGuardar() {
-        final AlertDialog.Builder dialogo = new AlertDialog.Builder(this.getContext());
-        dialogo.setTitle("Modificar ");// titulo y mensaje
-        dialogo.setMessage("Se dispone a modificar una población");
-
-
-        // agregamos botón Ok y su evento
-        dialogo.setPositiveButton(android.R.string.yes,
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // Qué hacemos en caso ok ....
-                        addPoblacion(new Poblacion());
-                    }
-                });
-
-        //Esta parte del código la comento porque no la voy a utilizar en este caso, sirve para un boton de cancelar
-        /*dialogo.setNegativeButton(android.R.string.no ,
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // Qué hacemos en caso cancel ......
-
-                    } });*/
-        dialogo.show();
     }
 
 

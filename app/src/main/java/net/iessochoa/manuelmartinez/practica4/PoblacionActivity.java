@@ -1,6 +1,7 @@
 package net.iessochoa.manuelmartinez.practica4;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.AndroidViewModel;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -8,12 +9,26 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+
 public class PoblacionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    //Constante clave-valor para recuperar los datos en la reconstrucción
+    public static String STATE_LISTA_POBLACIONES = "net.iessochoa.manuelmartinez.practica4.PoblacionActivity.lista_poblaciones";
+
+
+    //datos para la  lista
+    ArrayList<Poblacion> al_datos;
+    PoblacionesAdapter adaptadorLista;
+
+    //Elementos de la actividad
     TextView tvProvincia;
     TextView tvLocalidad;
     Spinner spProvincia;
@@ -21,7 +36,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
     RatingBar rbEstrellas;
     TextView tvComentarios;
     EditText etComentarios;
-
+    FloatingActionButton fabGuardar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +49,23 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         rbEstrellas = findViewById(R.id.rbEstrellas);
         tvComentarios = findViewById(R.id.tvComentarios);
         etComentarios = findViewById(R.id.etComentarios);
+        fabGuardar = findViewById(R.id.fabGuardar);
+
+        if (savedInstanceState == null) {
+            //crear datos a mostrar
+            //podemos poner un metodo que lo haga, por ejemplo: crearDatos();
+        } else {
+            //recuperamos los datos
+
+            /*   //////// por aqui /////
+            al_datos=savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES);
+            //https://github.com/jlopezdemerlo/EjemplosPractica4/blob/master/app/src/main/java/net/iessochoa/joseantoniolopez/ejemplospractica4/ListaConReconstruccionActivity.java
+
+             */
+        }
 
         /**
-         * Metodo para informar del voto en el RatingBar
+         * Metodo para informar del voto del RatingBar
          */
 
         rbEstrellas.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -46,8 +75,20 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
+        fabGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Poblacion p = new Poblacion();
+                p.setProvincia(spProvincia.toString());
+                p.setLocalidad(spLocalidad.toString());
+                p.setValoracion(rbEstrellas.getRating());
+                p.setComentarios(etComentarios.toString());
+
+            }
+        });
+
         /**
-         * Con este metodo consigo poblar el primer spinner con los datos del xml, pero no me hace falta si uso
+         * Con este metodo consigo poblar el primer spinner con los datos del xml, pero tambien puedo usar
          * el entries del propio spinner en el activity_poblacion.xml
          */
 
@@ -61,7 +102,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
     }
 
     /**
-     * Sobreescribimos el método onItemSelected para poder asociar los spinner entre si
+     * Sobreescribimos el método onItemSelected para poder asociar los dos spinner entre si
      */
 
     @Override
@@ -88,5 +129,6 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
         Toast.makeText(getApplicationContext(), getString(R.string.tmNOSeleccion), Toast.LENGTH_LONG).show();
     }
+
 
 }
