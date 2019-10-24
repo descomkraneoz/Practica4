@@ -17,9 +17,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    //listView
     ListView lvListaPoblaciones;
-    ArrayList<Poblacion> poblaciones;
+    //adaptador de tipo arrayList para el ViewModel
     private PoblacionesAdapter adaptadorLocalidadesValoradas;
+    //El viewModel definido para mantener los datos(la lista) que no queramos perder en la reconstrucción
+
+    //array de muestras para practicar solo en el main
+    ArrayList<Poblacion> poblaciones;
 
     Button btAcercade;
     Button btOrdenar;
