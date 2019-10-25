@@ -64,6 +64,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         tvComentarios = findViewById(R.id.tvComentarios);
         etComentarios = findViewById(R.id.etComentarios);
         fabGuardar = findViewById(R.id.fabGuardar);
+        this.setTitle(getResources().getText(R.string.nuevaPoblacion));
 
         /**
          * Metodo para informar del voto del RatingBar

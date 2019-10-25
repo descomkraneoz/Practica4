@@ -124,7 +124,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final int pos = position;
-                //Codigo aqui
+                //obtener el objeto pulsado
+                adaptador.getItem(position);
+                System.out.println(adaptador.getItem(position));
             }
         });
     }
