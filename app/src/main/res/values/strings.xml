@@ -12,8 +12,9 @@
     <string name="localidad">Localidad</string>
     <string name="comentarios">Comentarios</string>
     <string name="tmMensajeRatinBar">Usted ha votado con: &#160;</string>
-
     <string name="nuevaPoblacion">Nueva Población</string>
+    <string name="editandoPoblacion">Editando &#160;</string>
+    <string name="mensajePoblacionNoEliminada">La Población no ha podido ser eliminada</string>
 
 
 </resources>

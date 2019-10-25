@@ -1,9 +1,5 @@
 package net.iessochoa.manuelmartinez.practica4;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,11 +12,16 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_OPTION_NUEVA_POBLACIONES = 0;
     public static final int REQUEST_OPTION_EDITAR_POBLACIONES = 1;
+    public static String STATE_LISTA_POBLACIONES = "net.iessochoa.manuelmartinez.practica4.PoblacionActivity.lista_poblaciones";
+
 
     //listView
     ListView lvListaPoblaciones;
@@ -74,13 +75,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo boton añadir
+     * Metodo boton añadir que llama a la PoblacionActivity
      */
 
     public void agregaPoblacion() {
         Intent intent = new Intent(MainActivity.this, PoblacionActivity.class);
-        startActivityForResult(intent, 0);
-        //Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+        startActivityForResult(intent, REQUEST_OPTION_NUEVA_POBLACIONES);
 
     }
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
      * Metodo para crear unos datos de muestra en el array
      */
 
-    public void creaDatos() {
+    public void creaDatosDeEjemplo() {
 
         poblaciones.add(new Poblacion("Alicante", "Elche", 4.0f, "Lorem ipsum dolor sit amet," +
                 " consectetur adipiscing elit. Integer sed finibus ipsum. " +
@@ -114,21 +114,72 @@ public class MainActivity extends AppCompatActivity {
         btOrdenar = findViewById(R.id.btOrdenar);
 
         //Crear y asignar un ArrayList al adaptador y asignarlo al listView
-        creaDatos();
+
 
         adaptador = new PoblacionesAdapter(this, poblaciones);
         lvListaPoblaciones.setAdapter(adaptador);
+        if (savedInstanceState != null) {
+            poblaciones = savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES);
+        } else {
+            this.creaDatosDeEjemplo();
+        }
 
 
         lvListaPoblaciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final int pos = position;
+                Intent intentEnviaDatos = new Intent(MainActivity.this, PoblacionActivity.class);
                 //obtener el objeto pulsado
-                adaptador.getItem(position);
-                System.out.println(adaptador.getItem(position));
+                Poblacion poblacionElegida = poblaciones.get(position);
+                editarPoblacion(poblacionElegida);
+                intentEnviaDatos.putExtra(PoblacionActivity.EXTRA_POBLACION_RECIBIDA_A_EDITAR, poblacionElegida);
+                startActivityForResult(intentEnviaDatos, REQUEST_OPTION_EDITAR_POBLACIONES);
+
             }
         });
+
+        lvListaPoblaciones.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Poblacion poblacionElegida = poblaciones.get(i);
+                EliminarPoblacionClickLargo(poblacionElegida);
+                return true;
+            }
+        });
+    }
+
+    private void EliminarPoblacionClickLargo(final Poblacion poblacionElegida) {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
+        dialogo.setTitle("Borrar ");// titulo y mensaje
+        dialogo.setMessage("Desea borrar la siguiente población: " + poblacionElegida.getLocalidad());
+
+
+        // agregamos botón Ok y su evento
+        dialogo.setPositiveButton(android.R.string.yes,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Qué hacemos en caso ok ....
+                        MainActivity.this.borrarPoblacion(poblacionElegida);
+                        onRestart();
+                    }
+                });
+
+        dialogo.setNegativeButton(android.R.string.no,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Qué hacemos en caso cancel
+                        Toast.makeText(MainActivity.this,
+                                getResources().getString(R.string.mensajePoblacionNoEliminada)
+                                , Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        dialogo.show();
     }
 
     /**
@@ -161,6 +212,27 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Metodos CRUD para actuar sobre el arrayList del ActivityMain
+     */
+
+    private void anyadirPoblacion(Poblacion p) {
+        poblaciones.add(p);
+        adaptador.notifyDataSetChanged();
+    }
+
+    private void borrarPoblacion(Poblacion p) {
+        poblaciones.remove(p);
+        adaptador.notifyDataSetChanged();
+    }
+
+    private void editarPoblacion(final Poblacion p) {
+        poblaciones.indexOf(p);
+        poblaciones.get(poblaciones.indexOf(p)).setComentarios(p.getComentarios());
+        poblaciones.get(poblaciones.indexOf(p)).setValoracion(p.getValoracion());
+        adaptador.notifyDataSetChanged();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -168,14 +240,11 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_OPTION_NUEVA_POBLACIONES:
                     Poblacion p = data.getParcelableExtra(PoblacionActivity.EXTRA_POBLACION_A_GUARDAR);
-                    poblaciones.add(p);
-                    adaptador.notifyDataSetChanged();
+                    anyadirPoblacion(p);
                     break;
                 case REQUEST_OPTION_EDITAR_POBLACIONES:
-                    Poblacion pi = data.getParcelableExtra(PoblacionActivity.EXTRA_POBLACION_A_EDITAR);
-                    poblaciones.add(pi);
-                    adaptador.notifyDataSetChanged();
-                    System.out.println("Entra");
+                    Poblacion pi = data.getParcelableExtra(PoblacionActivity.EXTRA_POBLACION_RECIBIDA_A_EDITAR);
+
                     break;
 
             }
