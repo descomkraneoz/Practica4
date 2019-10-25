@@ -228,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void editarPoblacion(final Poblacion p) {
         poblaciones.indexOf(p);
+        poblaciones.get(poblaciones.indexOf(p)).setProvincia(p.getProvincia());
+        poblaciones.get(poblaciones.indexOf(p)).setLocalidad(p.getLocalidad());
         poblaciones.get(poblaciones.indexOf(p)).setComentarios(p.getComentarios());
         poblaciones.get(poblaciones.indexOf(p)).setValoracion(p.getValoracion());
         adaptador.notifyDataSetChanged();

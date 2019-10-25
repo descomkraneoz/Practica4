@@ -26,6 +26,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
 
 
     //datos para la  lista
+    TypedArray arrayLocalidades;
     ArrayList<Poblacion> arrayListPoblacionActivity;
     PoblacionesAdapter adaptadorLista;
     ListView lvPoblacionActivity;
@@ -64,6 +65,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         etComentarios.setText(p.getComentarios());
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,11 +78,9 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         tvComentarios = findViewById(R.id.tvComentarios);
         etComentarios = findViewById(R.id.etComentarios);
         fabGuardar = findViewById(R.id.fabGuardar);
-        //this.setTitle(getResources().getText(R.string.nuevaPoblacion));
+        this.setTitle(getResources().getText(R.string.nuevaPoblacion));
 
-        if (getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR) != null) {
-            rellenarDatosPoblacionEnviada();
-        }
+
 
         /**
          * Metodo para informar del voto del RatingBar
@@ -89,7 +89,8 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         rbEstrellas.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                Toast.makeText(PoblacionActivity.this, getResources().getText(R.string.tmMensajeRatinBar) + "" + v, Toast.LENGTH_LONG).show();
+                Toast.makeText(PoblacionActivity.this, getResources().getText(R.string.tmMensajeRatinBar)
+                        + "" + v, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -106,9 +107,8 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
                         rbEstrellas.getRating(), etComentarios.getText().toString());
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_POBLACION_A_GUARDAR, p);
-                if (getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR) != null) {
-                    intent.putExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR, getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR));
-                }
+
+
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -122,9 +122,15 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         ArrayAdapter<CharSequence> adapterProvincia = ArrayAdapter.createFromResource(this,
                 R.array.provincias,
                 android.R.layout.simple_spinner_item);
-        adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spProvincia.setAdapter(adapterProvincia);
+
+        if (getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR) != null) {
+            rellenarDatosPoblacionEnviada();
+        }
+
         spProvincia.setOnItemSelectedListener(this);
+
 
     }
 
@@ -135,7 +141,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         //creamos el array que almacene las localidades
-        TypedArray arrayLocalidades;
+
         //Dotamos al array del contenido
         arrayLocalidades = getResources().obtainTypedArray(R.array.array_provincia_a_localidades);
         //Obtenemos las localidades mediante la posición del elemento seleccionado en Provincias
@@ -144,8 +150,12 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         //Creamos el adaptador y lo dotamos con los recursos
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_dropdown_item, localidades);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spLocalidad.setAdapter(adapter);
+        if (getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR) != null) {
+            Poblacion p = getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR);
+            spLocalidad.setSelection(adapter.getPosition(p.getLocalidad()));
+        }
         //Mensaje que informa sobre la localidad seleccionada
         String ele = (String) parent.getItemAtPosition(position);
         Toast.makeText(getApplicationContext(), getString(R.string.tmMensajeSELECCIONADO) + ele, Toast.LENGTH_LONG).show();
