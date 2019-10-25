@@ -1,5 +1,6 @@
 package net.iessochoa.manuelmartinez.practica4;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 public class PoblacionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     //Constante clave-valor para recuperar los datos en la reconstrucción
     public static String STATE_LISTA_POBLACIONES = "net.iessochoa.manuelmartinez.practica4.PoblacionActivity.lista_poblaciones";
+    public static final String EXTRA_POBLACION_A_GUARDAR = "net.iessochoa.manuelmartinez.practica4.PoblacionActivity.poblacion_guardar";
+    public static final String EXTRA_POBLACION_A_EDITAR = "net.iessochoa.manuelmartinez.practica4.PoblacionActivity.poblacion_editar";
 
 
     //datos para la  lista
@@ -38,6 +41,17 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
     EditText etComentarios;
     FloatingActionButton fabGuardar;
 
+    private void crearDatos() {
+        arrayListPoblacionActivity = new ArrayList<Poblacion>();
+        String Provincia = "Provincia";
+        String Localidad = "Localidad";
+        Float Valoracion = 2.0f;
+        String Comentarios = "Donec ut lorem est. Suspendisse vel porttitor turpis. Aenean gravida elit nec sodales hendrerit. Vivamus non tellus eu sapien malesuada imperdiet. Sed eget diam vitae sem mattis scelerisque. Morbi sed elementum urna. Praesent egestas, nulla sit amet porttitor eleifend";
+        for (int i = 0; i <= 10; i++) {
+            arrayListPoblacionActivity.add(new Poblacion(Provincia + i, Localidad + i, Valoracion + i, Comentarios + i));
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,21 +64,6 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         tvComentarios = findViewById(R.id.tvComentarios);
         etComentarios = findViewById(R.id.etComentarios);
         fabGuardar = findViewById(R.id.fabGuardar);
-        //Voy a asignar al listView la id del listView del MainActivity
-        lvPoblacionActivity = findViewById(R.id.lvListaPoblaciones);
-
-        if (savedInstanceState == null) {
-            //crear datos a mostrar ------> hacerlo porque sino da un fallo de nulos
-            //podemos poner un metodo que lo haga, por ejemplo: crearDatos();
-        } else {
-            //recuperamos los datos
-
-            arrayListPoblacionActivity = savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES);
-        }
-
-        adaptadorLista = new PoblacionesAdapter(this, R.layout.item_poblacion, arrayListPoblacionActivity);
-        lvPoblacionActivity.setAdapter(adaptadorLista);
-
 
         /**
          * Metodo para informar del voto del RatingBar
@@ -77,12 +76,19 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
+        /**
+         * Metodo para guardar y mandar la nueva poblacion al MainActivity
+         */
+
         fabGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Poblacion p = new Poblacion();
-                adaptadorLista.addPoblacion(p);
-
+                Poblacion p = new Poblacion(spProvincia.getSelectedItem().toString(), spLocalidad.getSelectedItem().toString(),
+                        rbEstrellas.getRating(), etComentarios.getText().toString());
+                Intent intent = new Intent();
+                intent.putExtra(EXTRA_POBLACION_A_GUARDAR, p);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 

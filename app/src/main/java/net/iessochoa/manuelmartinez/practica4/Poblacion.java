@@ -12,13 +12,15 @@ public class Poblacion implements Parcelable {
     private String Comentarios;
 
     public Poblacion(String provincia, String localidad, Float valoracion, String comentarios) {
-        Provincia = provincia;
-        Localidad = localidad;
-        Valoracion = valoracion;
-        Comentarios = comentarios;
+        super();
+        this.Provincia = provincia;
+        this.Localidad = localidad;
+        this.Valoracion = valoracion;
+        this.Comentarios = comentarios;
     }
 
     public Poblacion() {
+        super();
 
     }
 
