@@ -1,5 +1,9 @@
 package net.iessochoa.manuelmartinez.practica4;
 
+/**
+ * @autor: Gracias a Ruben Mas por su ayuda
+ */
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,36 +26,29 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_OPTION_EDITAR_POBLACIONES = 1;
     public static String STATE_LISTA_POBLACIONES = "net.iessochoa.manuelmartinez.practica4.PoblacionActivity.lista_poblaciones";
 
-    /**
-     * @autor: Gracias a Ruben Mas por su ayuda
-     */
-
-
     //listView
     ListView lvListaPoblaciones;
     //adaptador de tipo arrayList para el ViewModel
     private PoblacionesAdapter adaptador;
-    //El viewModel definido para mantener los datos(la lista) que no queramos perder en la reconstrucción
 
-    //array de muestras para practicar solo en el main, se llena con el metodo creaDatos()
+    //array de muestras para practicar solo en el main, se llena con el metodo creaDatosDeEjemplo()
     ArrayList<Poblacion> poblaciones = new ArrayList<Poblacion>();
 
+    //Botones del menu
     Button btAcercade;
     Button btOrdenar;
     Button btAnyadir;
 
 
     /**
-     * Metodo para crear el mensaje al pulsar sobre el boton de Acerca de del Menu de la app
+     * Metodo para crear el mensaje de alerta al pulsar sobre el boton de Acerca de del Menu de la app
      */
 
     public void MensajeAcercade() {
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
-        dialogo.setTitle("Acerca de ");// titulo y mensaje
-        dialogo.setMessage("Práctica 4\n" +
-                "Manuel Martínez Serrano\n" +
-                "Licencia cc (Creative Commons)");
-
+        // titulo y mensaje
+        dialogo.setTitle(getResources().getString(R.string.acercadeTitulo));
+        dialogo.setMessage(getResources().getString(R.string.acercadeMensaje));
 
         // agregamos botón Ok y su evento
         dialogo.setPositiveButton(android.R.string.yes,
@@ -59,27 +56,15 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // Qué hacemos en caso ok ....
-                        //onDestroy(); no funciona como es debido en este caso
+                        // Qué hacemos en caso ok
                         onRestart();
                     }
                 });
-
-        //Esta parte del código la comento porque no la voy a utilizar en este caso, sirve para un boton de cancelar
-        /*dialogo.setNegativeButton(android.R.string.no ,
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // Qué hacemos en caso cancel ......
-
-                    } });*/
-
         dialogo.show();
     }
 
     /**
-     * Metodo boton añadir que llama a la PoblacionActivity
+     * Metodo del boton (+) del menu que llama a la PoblacionActivity
      */
 
     public void agregaPoblacion() {
@@ -118,8 +103,6 @@ public class MainActivity extends AppCompatActivity {
         btOrdenar = findViewById(R.id.btOrdenar);
 
         //Crear y asignar un ArrayList al adaptador y asignarlo al listView
-
-
         adaptador = new PoblacionesAdapter(this, poblaciones);
         lvListaPoblaciones.setAdapter(adaptador);
         if (savedInstanceState != null) {
@@ -128,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             this.creaDatosDeEjemplo();
         }
 
-
+        //Metodo que actua cuando se hace un click sobre un item/elemento del arrayList y edita la poblacion
         lvListaPoblaciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,36 +119,40 @@ public class MainActivity extends AppCompatActivity {
                 Intent intentEnviaDatos = new Intent(MainActivity.this, PoblacionActivity.class);
                 //obtener el objeto pulsado
                 Poblacion poblacionElegida = poblaciones.get(position);
+                //editar el objeto pulsado
                 editarPoblacion(poblacionElegida);
                 intentEnviaDatos.putExtra(PoblacionActivity.EXTRA_POBLACION_RECIBIDA_A_EDITAR, poblacionElegida);
                 startActivityForResult(intentEnviaDatos, REQUEST_OPTION_EDITAR_POBLACIONES);
-
             }
         });
 
+        //Metodo que actua cuando se hace un click largo sobre un item/elemento del arrayList y borra la poblacion o no.
         lvListaPoblaciones.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //obtener el objeto pulsado
                 Poblacion poblacionElegida = poblaciones.get(i);
+                //metodo para preguntar si se desea o no eliminar dicho objeto
                 EliminarPoblacionClickLargo(poblacionElegida);
                 return true;
             }
         });
     }
 
+    /**
+     * Metodo para preguntar si se elimina, o no, una población del arrayList, salta con un click largo
+     */
     private void EliminarPoblacionClickLargo(final Poblacion poblacionElegida) {
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
-        dialogo.setTitle("Borrar ");// titulo y mensaje
-        dialogo.setMessage("Desea borrar la siguiente población: " + poblacionElegida.getLocalidad());
-
+        dialogo.setTitle(getResources().getString(R.string.borrarTitulo));
+        dialogo.setMessage(getResources().getString(R.string.borrarMensaje) + poblacionElegida.getLocalidad());
 
         // agregamos botón Ok y su evento
         dialogo.setPositiveButton(android.R.string.yes,
                 new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // Qué hacemos en caso ok ....
+                        // Borramos en caso de ok
                         MainActivity.this.borrarPoblacion(poblacionElegida);
                         onRestart();
                     }
@@ -173,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
 
         dialogo.setNegativeButton(android.R.string.no,
                 new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Qué hacemos en caso cancel
@@ -182,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
                                 , Toast.LENGTH_LONG).show();
                     }
                 });
-
         dialogo.show();
     }
 
@@ -236,6 +221,10 @@ public class MainActivity extends AppCompatActivity {
         adaptador.notifyDataSetChanged();
     }
 
+    /**
+     * Metodo para rescatar los datos mandados al PoblacionActivity y mostrarlos en el MainActivity
+     */
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -249,11 +238,14 @@ public class MainActivity extends AppCompatActivity {
                     Poblacion pi = data.getParcelableExtra(PoblacionActivity.EXTRA_POBLACION_A_GUARDAR);
                     editarPoblacion(pi);
                     break;
-
             }
         }
     }
 
+    /**
+     * evento onSaveInstaceState que se ejecuta antes de destruir la actividad y que nos permite guardar
+     * en un Bundle los datos necesarios para recuperarlos en la reconstrucción de la actividad.
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

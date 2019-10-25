@@ -41,16 +41,9 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
     EditText etComentarios;
     FloatingActionButton fabGuardar;
 
-    private void crearDatos() {
-        arrayListPoblacionActivity = new ArrayList<Poblacion>();
-        String Provincia = "Provincia";
-        String Localidad = "Localidad";
-        Float Valoracion = 2.0f;
-        String Comentarios = "Donec ut lorem est. Suspendisse vel porttitor turpis. Aenean gravida elit nec sodales hendrerit. Vivamus non tellus eu sapien malesuada imperdiet. Sed eget diam vitae sem mattis scelerisque. Morbi sed elementum urna. Praesent egestas, nulla sit amet porttitor eleifend";
-        for (int i = 0; i <= 10; i++) {
-            arrayListPoblacionActivity.add(new Poblacion(Provincia + i, Localidad + i, Valoracion + i, Comentarios + i));
-        }
-    }
+    /**
+     * Metodo para recoger los datos mandados desde la MainActivity para ser editados
+     */
 
     private void rellenarDatosPoblacionEnviada() {
         Poblacion p = getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR);
@@ -107,8 +100,6 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
                         rbEstrellas.getRating(), etComentarios.getText().toString());
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_POBLACION_A_GUARDAR, p);
-
-
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -122,16 +113,12 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         ArrayAdapter<CharSequence> adapterProvincia = ArrayAdapter.createFromResource(this,
                 R.array.provincias,
                 android.R.layout.simple_spinner_item);
-        //adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spProvincia.setAdapter(adapterProvincia);
-
+        //Si voy a editar porque recibo datos desde el MainActyvity lo compruebo aqui, en este paso la Provincia
         if (getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR) != null) {
             rellenarDatosPoblacionEnviada();
         }
-
         spProvincia.setOnItemSelectedListener(this);
-
-
     }
 
     /**
@@ -140,8 +127,6 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //creamos el array que almacene las localidades
-
         //Dotamos al array del contenido
         arrayLocalidades = getResources().obtainTypedArray(R.array.array_provincia_a_localidades);
         //Obtenemos las localidades mediante la posición del elemento seleccionado en Provincias
@@ -150,8 +135,9 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         //Creamos el adaptador y lo dotamos con los recursos
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_dropdown_item, localidades);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spLocalidad.setAdapter(adapter);
+
+        //Preguntamos si los datos recibidos proceden del MainActyvity, si es asi, la localidad ya viene dada para ser editada
         if (getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR) != null) {
             Poblacion p = getIntent().getParcelableExtra(EXTRA_POBLACION_RECIBIDA_A_EDITAR);
             spLocalidad.setSelection(adapter.getPosition(p.getLocalidad()));
@@ -166,6 +152,5 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
         Toast.makeText(getApplicationContext(), getString(R.string.tmNOSeleccion), Toast.LENGTH_LONG).show();
     }
-
 
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,24 +23,6 @@ public class PoblacionesAdapter extends BaseAdapter {
         this.itemsPoblaciones = items;
     }
 
-    /*
-
-    /**
-     * devuelve la lista actual de elementos
-
-    public ArrayList<Poblacion> getPoblacionesValoradas() {
-        return poblacionesValoradas;
-    }
-
-    /**
-     * Nos permite actualizar la lista e indicar al adaptador que reconstrulla la lista
-
-    public void setPoblacionesValoradas(ArrayList<Poblacion> poblacionesValoradas) {
-        this.poblacionesValoradas = poblacionesValoradas;
-        notifyDataSetChanged();//actualizamos el ListView
-    }
-
-    */
 
     @Override
     public int getCount() {
@@ -57,6 +38,10 @@ public class PoblacionesAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
+    /**
+     * CRUD del metodo aunque no los voy a utilizar ya que hice los propios en el MainActivity
+     */
 
     public void delPoblacion() {
         itemsPoblaciones.clear();
@@ -103,6 +88,5 @@ public class PoblacionesAdapter extends BaseAdapter {
 
         return v;
     }
-
 
 }
