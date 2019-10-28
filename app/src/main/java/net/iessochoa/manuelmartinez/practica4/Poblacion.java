@@ -82,7 +82,15 @@ public class Poblacion implements Parcelable {
 
     /**
      * Hacemos Parcelable a Poblacion, implementamos los metodos y los sobreescribimos
+     * use la herramienta http://www.parcelabler.com/
      */
+
+    protected Poblacion(Parcel in) {
+        Provincia = in.readString();
+        Localidad = in.readString();
+        Valoracion = in.readByte() == 0x00 ? null : in.readFloat();
+        Comentarios = in.readString();
+    }
 
     @Override
     public int describeContents() {
@@ -90,25 +98,23 @@ public class Poblacion implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(this.Provincia);
-        parcel.writeString(this.Localidad);
-        parcel.writeFloat(this.Valoracion);
-        parcel.writeString(this.Comentarios);
-
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Provincia);
+        dest.writeString(Localidad);
+        if (Valoracion == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeFloat(Valoracion);
+        }
+        dest.writeString(Comentarios);
     }
 
-    protected Poblacion(Parcel in) {
-        this.Provincia = in.readString();
-        this.Localidad = in.readString();
-        this.Valoracion = in.readFloat();
-        this.Comentarios = in.readString();
-    }
-
+    @SuppressWarnings("unused")
     public static final Parcelable.Creator<Poblacion> CREATOR = new Parcelable.Creator<Poblacion>() {
         @Override
-        public Poblacion createFromParcel(Parcel source) {
-            return new Poblacion(source);
+        public Poblacion createFromParcel(Parcel in) {
+            return new Poblacion(in);
         }
 
         @Override

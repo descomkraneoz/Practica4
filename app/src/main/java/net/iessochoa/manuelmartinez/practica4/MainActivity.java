@@ -105,13 +105,15 @@ public class MainActivity extends AppCompatActivity {
         //Crear y asignar un ArrayList al adaptador y asignarlo al listView
         adaptador = new PoblacionesAdapter(this, poblaciones);
         lvListaPoblaciones.setAdapter(adaptador);
-        if (savedInstanceState != null) {
-            poblaciones = savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES);
-        } else {
-            this.creaDatosDeEjemplo();
+
+
+        //Rellenar datos de ejemplo
+        if (savedInstanceState == null) {
+            creaDatosDeEjemplo();
         }
 
-        //Metodo que actua cuando se hace un click sobre un item/elemento del arrayList y edita la poblacion
+
+        //Metodo que actua cuando se hace un click corto sobre un item/elemento del arrayList y edita la poblacion
         lvListaPoblaciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -243,13 +245,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * evento onSaveInstaceState que se ejecuta antes de destruir la actividad y que nos permite guardar
+     * eventos onSaveInstaceState y onRestoreInstanceState que se ejecutan antes de destruir la actividad y que nos permite guardar
      * en un Bundle los datos necesarios para recuperarlos en la reconstrucción de la actividad.
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(STATE_LISTA_POBLACIONES, poblaciones);
+
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            poblaciones = savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES);
+            adaptador.addPoblacion(poblaciones);
+        } else {
+            this.creaDatosDeEjemplo();
+        }
+    }
 }
