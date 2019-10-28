@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PoblacionActivity">
+
+    <Spinner
+        android:id="@+id/spProvincia"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="24dp"
+        android:entries="@array/provincias"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvProvincia"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvProvincia"
+        android:layout_width="78dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/almendra_bold"
+        android:text="@string/provincia"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPoblacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/almendra_bold_italic"
+        android:text="@string/localidad"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvProvincia" />
+
+    <Spinner
+        android:id="@+id/spLocalidad"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvPoblacion"
+        app:layout_constraintTop_toBottomOf="@+id/spProvincia" />
+
+    <RatingBar
+        android:id="@+id/rbEstrellas"
+        style="@android:style/Widget.Holo.Light.RatingBar.Indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:numStars="@integer/fiveStars"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.619"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spLocalidad" />
+
+    <TextView
+        android:id="@+id/tvComentarios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/almendra_italic"
+        android:text="@string/comentarios"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPoblacion" />
+
+    <EditText
+        android:id="@+id/etComentarios"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:isScrollContainer="true"
+        android:ems="10"
+        android:fontFamily="@font/almendra"
+        android:gravity="clip_horizontal"
+        android:inputType="textMultiLine|text"
+        android:overScrollMode="ifContentScrolls"
+        android:selectAllOnFocus="false"
+        android:singleLine="false"
+        android:textAlignment="gravity"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rbEstrellas"
+        tools:text="@tools:sample/lorem/random" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabGuardar"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="40dp"
+        app:srcCompat="@android:drawable/ic_menu_save" />
+</androidx.constraintlayout.widget.ConstraintLayout>

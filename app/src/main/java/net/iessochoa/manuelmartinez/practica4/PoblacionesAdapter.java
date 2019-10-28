@@ -43,8 +43,8 @@ public class PoblacionesAdapter extends BaseAdapter {
      * CRUD del metodo aunque no los voy a utilizar ya que hice los propios en el MainActivity
      */
 
-    public void delPoblacion() {
-        itemsPoblaciones.clear();
+    public void delPoblacion(Poblacion p) {
+        itemsPoblaciones.remove(p);
         this.notifyDataSetChanged();
     }
 

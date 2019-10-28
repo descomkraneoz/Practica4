@@ -27,7 +27,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
 
     //datos para la  lista
     TypedArray arrayLocalidades;
-    ArrayList<Poblacion> arrayListPoblacionActivity;
+    ArrayList<Poblacion> arrayListPoblacionActivity = new ArrayList<>();
     PoblacionesAdapter adaptadorLista;
     ListView lvPoblacionActivity;
 
@@ -73,8 +73,6 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
         fabGuardar = findViewById(R.id.fabGuardar);
         this.setTitle(getResources().getText(R.string.nuevaPoblacion));
 
-
-
         /**
          * Metodo para informar del voto del RatingBar
          */
@@ -98,6 +96,7 @@ public class PoblacionActivity extends AppCompatActivity implements AdapterView.
                 Poblacion p = new Poblacion(spProvincia.getSelectedItem().toString(),
                         spLocalidad.getSelectedItem().toString(),
                         rbEstrellas.getRating(), etComentarios.getText().toString());
+                //arrayListPoblacionActivity.add(p);
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_POBLACION_A_GUARDAR, p);
                 setResult(RESULT_OK, intent);

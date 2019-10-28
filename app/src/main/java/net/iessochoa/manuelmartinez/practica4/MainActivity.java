@@ -70,11 +70,10 @@ public class MainActivity extends AppCompatActivity {
     public void agregaPoblacion() {
         Intent intent = new Intent(MainActivity.this, PoblacionActivity.class);
         startActivityForResult(intent, REQUEST_OPTION_NUEVA_POBLACIONES);
-
     }
 
     /**
-     * Metodo para crear unos datos de muestra en el array
+     * Metodo para crear unos datos de muestra en el array, es un ejemplo de previsualización en la listView
      */
 
     public void creaDatosDeEjemplo() {
@@ -105,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         //Crear y asignar un ArrayList al adaptador y asignarlo al listView
         adaptador = new PoblacionesAdapter(this, poblaciones);
         lvListaPoblaciones.setAdapter(adaptador);
+
 
 
         //Rellenar datos de ejemplo
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para preguntar si se elimina, o no, una población del arrayList, salta con un click largo
+     * Metodo para preguntar si se elimina, o no, una población del arrayList, salta con un click largo en este ejemplo
      */
     private void EliminarPoblacionClickLargo(final Poblacion poblacionElegida) {
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
@@ -154,8 +154,10 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // Borramos en caso de ok
+                        // Borramos en caso de ok, primero del Main y luego del adaptador
                         MainActivity.this.borrarPoblacion(poblacionElegida);
+                        adaptador.delPoblacion(poblacionElegida);
+                        adaptador.notifyDataSetChanged();
                         onRestart();
                     }
                 });
@@ -239,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 case REQUEST_OPTION_EDITAR_POBLACIONES:
                     Poblacion pi = data.getParcelableExtra(PoblacionActivity.EXTRA_POBLACION_A_GUARDAR);
                     editarPoblacion(pi);
+                    lvListaPoblaciones.getAdapter();
                     break;
             }
         }
@@ -260,9 +263,11 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
             poblaciones = savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES);
+            //importante añadir las nuevas poblaciones creadas al adaptador y su metodo.
             adaptador.addPoblacion(poblaciones);
+            adaptador.notifyDataSetChanged();
         } else {
-            this.creaDatosDeEjemplo();
+            creaDatosDeEjemplo();
         }
     }
 }
