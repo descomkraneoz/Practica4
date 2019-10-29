@@ -21,5 +21,9 @@
     <string name="borrarTitulo">Borrar</string>
     <string name="borrarMensaje">Desea borrar la siguiente población: &#160;</string>
 
+    <string name="EditarTitulo">Editar</string>
+    <string name="EditarMensaje">Desea editar la siguiente población: &#160;</string>
+    <string name="mensajePoblacionNoEditada">La Población no ha podido ser editada</string>
+
 
 </resources>

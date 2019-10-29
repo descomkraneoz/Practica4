@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private PoblacionesAdapter adaptador;
 
     //array de muestras para practicar solo en el main, se llena con el metodo creaDatosDeEjemplo()
-    ArrayList<Poblacion> poblaciones = new ArrayList<Poblacion>();
+    ArrayList<Poblacion> poblaciones;
 
     //Botones del menu
     Button btAcercade;
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         btOrdenar = findViewById(R.id.btOrdenar);
 
         //Crear y asignar un ArrayList al adaptador y asignarlo al listView
+        poblaciones = new ArrayList<Poblacion>();
         adaptador = new PoblacionesAdapter(this, poblaciones);
         lvListaPoblaciones.setAdapter(adaptador);
 
@@ -119,13 +120,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final int pos = position;
-                Intent intentEnviaDatos = new Intent(MainActivity.this, PoblacionActivity.class);
                 //obtener el objeto pulsado
                 Poblacion poblacionElegida = poblaciones.get(position);
                 //editar el objeto pulsado
-                editarPoblacion(poblacionElegida);
-                intentEnviaDatos.putExtra(PoblacionActivity.EXTRA_POBLACION_RECIBIDA_A_EDITAR, poblacionElegida);
-                startActivityForResult(intentEnviaDatos, REQUEST_OPTION_EDITAR_POBLACIONES);
+                PreguntarEditarPoblacion(poblacionElegida);
+
             }
         });
 
@@ -170,6 +169,41 @@ public class MainActivity extends AppCompatActivity {
                         // Qué hacemos en caso cancel
                         Toast.makeText(MainActivity.this,
                                 getResources().getString(R.string.mensajePoblacionNoEliminada)
+                                , Toast.LENGTH_LONG).show();
+                    }
+                });
+        dialogo.show();
+    }
+
+    /**
+     * Metodo para preguntar si se edita, o no, una población del arrayList, salta con un click corto
+     */
+
+    private void PreguntarEditarPoblacion(final Poblacion poblacionElegida) {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
+        dialogo.setTitle(getResources().getString(R.string.EditarTitulo));
+        dialogo.setMessage(getResources().getString(R.string.EditarMensaje) + poblacionElegida.getLocalidad());
+
+        // agregamos botón Ok y su evento
+        dialogo.setPositiveButton(android.R.string.yes,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intentEnviaDatos = new Intent(MainActivity.this, PoblacionActivity.class);
+                        editarPoblacion(poblacionElegida);
+                        intentEnviaDatos.putExtra(PoblacionActivity.EXTRA_POBLACION_RECIBIDA_A_EDITAR, poblacionElegida);
+                        startActivityForResult(intentEnviaDatos, REQUEST_OPTION_EDITAR_POBLACIONES);
+                        onRestart();
+                    }
+                });
+
+        dialogo.setNegativeButton(android.R.string.no,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Qué hacemos en caso cancel
+                        Toast.makeText(MainActivity.this,
+                                getResources().getString(R.string.mensajePoblacionNoEditada)
                                 , Toast.LENGTH_LONG).show();
                     }
                 });
