@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -210,6 +211,9 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private void anyadirPoblacion(Poblacion p) {
+        if (poblaciones.contains(p)) {
+            poblaciones.remove(p);
+        }
         poblaciones.add(p);
         adaptador.notifyDataSetChanged();
     }
@@ -262,9 +266,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
-            poblaciones = savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES);
-            //importante añadir las nuevas poblaciones creadas al adaptador y su metodo.
-            adaptador.addPoblacion(poblaciones);
+
+            for (Parcelable p : savedInstanceState.getParcelableArrayList(STATE_LISTA_POBLACIONES)) {
+                poblaciones.add((Poblacion) p);
+            }
+
             adaptador.notifyDataSetChanged();
         } else {
             creaDatosDeEjemplo();
